@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Back"
+        android:icon="@drawable/chevron_direction_left_round_outline_icon"
+        android:id="@+id/back" />
+    <item android:title="Play"
+        android:icon="@drawable/tennis_ball_icon"
+        android:id="@+id/play" />
+    <item android:title="Home"
+        android:icon="@drawable/home_icon"
+        android:id="@+id/home"
+        />
+    <item android:title="Allenamento"
+        android:icon="@drawable/coach_svgrepo_com"
+        android:id="@+id/coach"/>
+    <item android:title="Profile"
+        android:icon="@drawable/profile_svgrepo_com"
+        android:id="@+id/profile"/>
+</menu>
