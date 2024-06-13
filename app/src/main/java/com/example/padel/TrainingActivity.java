@@ -2,7 +2,6 @@ package com.example.padel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,27 +11,27 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class TrainingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_training);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.training);
 
         bottomNavigationView.setOnItemSelectedListener(item ->{
 
-            if(item.getItemId() == R.id.home){
+            if(item.getItemId() == R.id.training){
                 getApplicationContext();
             }
             else if(item.getItemId() == R.id.play){
                 startActivity(new Intent(getApplicationContext(), PlayActivity.class));
                 finish();
             }
-            else if(item.getItemId() == R.id.training){
-                startActivity(new Intent(getApplicationContext(), TrainingActivity.class));
+            else if(item.getItemId() == R.id.home){
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
             else if(item.getItemId() == R.id.profile){
@@ -41,12 +40,5 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-    }
-
-    public void playAct(View view){
-        startActivity(new Intent(MainActivity.this, PlayActivity.class));
-    }
-    public void trainingAct(View view){
-        startActivity(new Intent(MainActivity.this, TrainingActivity.class));
     }
 }

@@ -12,7 +12,7 @@
         />
     <item android:title="Allenamento"
         android:icon="@drawable/coach_svgrepo_com"
-        android:id="@+id/coach"/>
+        android:id="@+id/training"/>
     <item android:title="Profile"
         android:icon="@drawable/profile_svgrepo_com"
         android:id="@+id/profile"/>

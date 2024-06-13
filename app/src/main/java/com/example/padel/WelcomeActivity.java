@@ -1,0 +1,26 @@
+package com.example.padel;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class WelcomeActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+    }
+    public void btn_login(View v){
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+    }
+    public void btn_register(View v){
+        startActivity(new Intent(WelcomeActivity.this, RegisterActivity.class));
+    }
+}

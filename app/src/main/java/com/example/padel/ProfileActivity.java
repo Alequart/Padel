@@ -2,7 +2,6 @@ package com.example.padel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,19 +11,18 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_profile);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.profile);
 
         bottomNavigationView.setOnItemSelectedListener(item ->{
 
-            if(item.getItemId() == R.id.home){
+            if(item.getItemId() == R.id.profile){
                 getApplicationContext();
             }
             else if(item.getItemId() == R.id.play){
@@ -35,18 +33,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), TrainingActivity.class));
                 finish();
             }
-            else if(item.getItemId() == R.id.profile){
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            else if(item.getItemId() == R.id.home){
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
             return true;
         });
-    }
-
-    public void playAct(View view){
-        startActivity(new Intent(MainActivity.this, PlayActivity.class));
-    }
-    public void trainingAct(View view){
-        startActivity(new Intent(MainActivity.this, TrainingActivity.class));
     }
 }
