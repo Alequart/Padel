@@ -13,12 +13,14 @@
         android:theme="@style/Theme.Padel"
         tools:targetApi="31">
         <activity
+            android:name=".PrenotaMatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".WelcomeActivity"
             android:exported="true">
@@ -28,8 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
@@ -41,8 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

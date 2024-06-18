@@ -2,6 +2,7 @@ package com.example.padel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,16 +30,23 @@ public class PlayActivity extends AppCompatActivity {
             else if(item.getItemId() == R.id.home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             else if(item.getItemId() == R.id.training){
                 startActivity(new Intent(getApplicationContext(), TrainingActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             else if(item.getItemId() == R.id.profile){
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             return true;
         });
+    }
+
+    public void prenota_campo(View v){
+        startActivity(new Intent(PlayActivity.this, PrenotaMatchActivity.class));
     }
 }

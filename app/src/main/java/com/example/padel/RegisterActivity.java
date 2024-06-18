@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,8 +26,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -33,8 +38,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextRegisterName, editTextRegisterSurname, editTextRegisterDateOfBirth, editTextRegisterEmail, editTextRegisterPassword, editTextRegisterConfirmPassword;
 
+    private RadioGroup radioGroupLivello;
+    private RadioButton radioButtonSelected;
     private static final String TAG = "RegisterActivity";
-
     private DatePickerDialog picker;
 
     @Override
@@ -45,9 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
         editTextRegisterName = findViewById(R.id.nome);
         editTextRegisterSurname = findViewById(R.id.cognome);
         editTextRegisterDateOfBirth = findViewById(R.id.editTextDate);
-        editTextRegisterEmail = findViewById(R.id.email);
-        editTextRegisterPassword = findViewById(R.id.password);
+        editTextRegisterEmail = findViewById(R.id.register_email);
+        editTextRegisterPassword = findViewById(R.id.register_password);
         editTextRegisterConfirmPassword = findViewById(R.id.confirmPassword);
+
+        radioGroupLivello = findViewById(R.id.radioGroup);
+        radioGroupLivello.clearCheck();
 
         editTextRegisterDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +80,17 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                int selectLivelloId = radioGroupLivello.getCheckedRadioButtonId();
+                radioButtonSelected = findViewById(selectLivelloId);
+
                 String textName = editTextRegisterName.getText().toString();
                 String textSurname = editTextRegisterSurname.getText().toString();
                 String textDateOfBirth = editTextRegisterDateOfBirth.getText().toString();
                 String textEmail = editTextRegisterEmail.getText().toString();
                 String textPassword = editTextRegisterPassword.getText().toString();
-                String textConfirmPassword = editTextRegisterConfirmPassword.toString();
+                String textConfirmPassword = editTextRegisterConfirmPassword.getText().toString();
+                String textLivello;
 
                 if(TextUtils.isEmpty(textName)){
                     Toast.makeText(RegisterActivity.this, "Inserisci il nome", Toast.LENGTH_LONG).show();
@@ -90,7 +104,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Inserisci la data di nascita", Toast.LENGTH_LONG).show();
                     editTextRegisterDateOfBirth.setError("Necessario inserire la data di nascita");
                     editTextRegisterDateOfBirth.requestFocus();
-                } else if(TextUtils.isEmpty(textEmail)){
+                } else if(radioGroupLivello.getCheckedRadioButtonId() == -1){
+                    Toast.makeText(RegisterActivity.this, "Seleziona il livello di abilità", Toast.LENGTH_LONG).show();
+                    radioButtonSelected.setError("Necessario selezionare un livello di abilità");
+                    radioButtonSelected.requestFocus();
+                }
+                else if(TextUtils.isEmpty(textEmail)){
                     Toast.makeText(RegisterActivity.this, "Inserisci l'email", Toast.LENGTH_LONG).show();
                     editTextRegisterEmail.setError("Necessario inserire l'email");
                     editTextRegisterEmail.requestFocus();
@@ -105,33 +124,49 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else if(textPassword.length() < 6){
                     Toast.makeText(RegisterActivity.this, "La password deve contenere almeno 6 caratteri", Toast.LENGTH_LONG).show();
-                    editTextRegisterConfirmPassword.setError("Password troppo corta");
-                    editTextRegisterConfirmPassword.requestFocus();
+                    editTextRegisterPassword.setError("Password troppo corta");
+                    editTextRegisterPassword.requestFocus();
                 }
-                else if(textConfirmPassword.equals(textPassword)){
+                else if(!textPassword.equals(textConfirmPassword)){
                     Toast.makeText(RegisterActivity.this, "La password di conferma non coincide", Toast.LENGTH_LONG).show();
                     editTextRegisterConfirmPassword.setError("Password non coincide");
                     editTextRegisterConfirmPassword.requestFocus();
                 }
                 else{
-                    registerUser(textName, textSurname, textDateOfBirth, textEmail, textPassword, textConfirmPassword);
+                    textLivello = radioButtonSelected.getText().toString();
+                    registerUser(textName, textSurname, textDateOfBirth, textLivello, textEmail, textPassword, textConfirmPassword);
                 }
             }
         });
-
     }
 
-    private void registerUser(String textName, String textSurname, String textDateOfBirth, String textEmail, String textPassword, String textConfirmPassword) {
+    private void registerUser(String textName, String textSurname, String textDateOfBirth, String textLivello, String textEmail, String textPassword, String textConfirmPassword) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
+
         auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     FirebaseUser firebaseUser = auth.getCurrentUser();
 
-                    ReadWriteUserDetails readWriteUserDetails = new ReadWriteUserDetails(textName, textSurname, textDateOfBirth);
+                    ReadWriteUserDetails readWriteUserDetails = new ReadWriteUserDetails(textName, textSurname, textDateOfBirth, textLivello);
 
                     DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Utenti registrati");
+                    DatabaseReference referenceNumberProfiles = FirebaseDatabase.getInstance().getReference("Numero utenti");
+
+
+                    referenceProfile.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            int number_profiles = (int) snapshot.getChildrenCount();
+                            referenceNumberProfiles.setValue(number_profiles);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(RegisterActivity.this, "Qualcosa è andato storto", Toast.LENGTH_LONG).show();
+                        }
+                    });
 
                     referenceProfile.child(firebaseUser.getUid()).setValue(readWriteUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -139,7 +174,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                             if(task.isSuccessful()){
                                 Toast.makeText(RegisterActivity.this, "Utente registrato con successo", Toast.LENGTH_LONG).show();
-
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 

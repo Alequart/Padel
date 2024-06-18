@@ -30,14 +30,17 @@ public class MainActivity extends AppCompatActivity {
             else if(item.getItemId() == R.id.play){
                 startActivity(new Intent(getApplicationContext(), PlayActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             else if(item.getItemId() == R.id.training){
                 startActivity(new Intent(getApplicationContext(), TrainingActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             else if(item.getItemId() == R.id.profile){
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             return true;
         });
@@ -45,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void playAct(View view){
         startActivity(new Intent(MainActivity.this, PlayActivity.class));
+        overridePendingTransition(0,0);
     }
     public void trainingAct(View view){
         startActivity(new Intent(MainActivity.this, TrainingActivity.class));
+        overridePendingTransition(0,0);
     }
 }

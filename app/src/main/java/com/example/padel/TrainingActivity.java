@@ -29,14 +29,17 @@ public class TrainingActivity extends AppCompatActivity {
             else if(item.getItemId() == R.id.play){
                 startActivity(new Intent(getApplicationContext(), PlayActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             else if(item.getItemId() == R.id.home){
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             else if(item.getItemId() == R.id.profile){
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 finish();
+                overridePendingTransition(0,0);
             }
             return true;
         });
