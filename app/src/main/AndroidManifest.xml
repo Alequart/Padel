@@ -37,11 +37,8 @@
             android:name=".TrainingActivity"
             android:exported="false" />
         <activity
-            android:name=".PlayActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
     </application>
 
 </manifest>

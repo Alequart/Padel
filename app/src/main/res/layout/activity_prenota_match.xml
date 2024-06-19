@@ -89,7 +89,7 @@
         android:id="@+id/editTextDate"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textAlignment="center"
@@ -103,28 +103,43 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
-    <EditText
-        android:id="@+id/editTextTime"
+    <Spinner
+        android:id="@+id/spinnerTime"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:textAlignment="center"
+        android:background="#E8F29635"
+        android:hint="Seleziona un orario"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate"/>
+
+
+    <EditText
+        android:id="@+id/editTextCampo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textAlignment="center"
         android:background="#E8F29635"
         android:focusable="false"
-        android:hint="Clicca qui per selezionare un orario"
+        android:hint="Clicca qui per selezionare un campo"
         android:textColorHint="@color/black"
-        android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTime"/>
 
     <Button
         android:id="@+id/buttonPrenotaMatch"
         android:layout_width="150dp"
         android:layout_height="70dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textAlignment="center"
@@ -134,7 +149,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTime"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextCampo"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

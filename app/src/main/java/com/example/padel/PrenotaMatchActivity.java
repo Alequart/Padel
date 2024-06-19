@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -26,6 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -54,16 +58,36 @@ public class PrenotaMatchActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private DatePickerDialog datePickerDialog;
-    private TimePickerDialog timePickerDialog;
     private EditText editTextDate;
-    private EditText editTextTime;
+    boolean flagConfronto = true;
+    private Spinner spinnerTime;
+    private String helperTime;
+    protected EditText editTextCampo;
 
     private FirebaseAuth firebaseAuth;
 
-    int hour, minutes;
+    private String orario;
+    private final String slot1 = "09:00 - 10:30";
+    private final String slot2 = "10:30 - 12:00";
+    private final String slot3 = "12:00 - 13:30";
+    private final String slot4 = "16:00 - 17:30";
+    private final String slot5 = "17:30 - 19:00";
+    private final String slot6 = "19:00 - 20:30";
+    private final String slot7 = "20:30 - 22:00";
+    private final String slot8 = "22:00 - 23:30";
 
-    String player1, player2, player3, player4;
-    private static int num_prenotazione = 0;
+    private String player1, player2, player3, player4;
+
+    protected static String color;
+
+    boolean fullPlayers;
+    private String IdPrenotazione;
+
+    FirebaseUser firebaseUser;
+
+    String textDate;
+    String textTime;
+    String textCampo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +124,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         // Visualizza giocatori nella schermata
         data = FirebaseDatabase.getInstance().getReference();
@@ -166,7 +190,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
 
         // Imposta giorno e orario
         editTextDate = findViewById(R.id.editTextDate);
-        editTextTime = findViewById(R.id.editTextTime);
+        spinnerTime = findViewById(R.id.spinnerTime);
 
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,31 +204,47 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(PrenotaMatchActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        editTextDate.setText(dayOfMonth + "/" + + (month + 1) + "/" + year);
+                        editTextDate.setText(dayOfMonth + "-" + + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
             }
         });
 
-        editTextTime.setOnClickListener(new View.OnClickListener() {
+        spinnerTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                timePickerDialog = new TimePickerDialog(PrenotaMatchActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                orario = parent.getItemAtPosition(position).toString();
+            }
 
-                        hour = hourOfDay;
-                        minutes = minute;
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                        editTextTime.setText((String.format(Locale.ITALIAN, "%d.%d", hourOfDay, minute)));
-                    }
-                } ,hour , minutes, true);
-                timePickerDialog.show();
             }
         });
+        ArrayList<String> listOrari = new ArrayList<>();
+        listOrari.add("--Seleziona un orario--");
+        listOrari.add(slot1);
+        listOrari.add(slot2);
+        listOrari.add(slot3);
+        listOrari.add(slot4);
+        listOrari.add(slot5);
+        listOrari.add(slot6);
+        listOrari.add(slot7);
+        listOrari.add(slot8);
+        ArrayAdapter<String> adapterOrari = new ArrayAdapter<>(PrenotaMatchActivity.this, android.R.layout.simple_spinner_item, listOrari);
+        adapterOrari.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        spinnerTime.setAdapter(adapterOrari);
 
 
+        editTextCampo = findViewById(R.id.editTextCampo);
+        editTextCampo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment();
+            }
+        });
+        
 
         // Completa prenotazione
         Button buttonPrenota = findViewById(R.id.buttonPrenotaMatch);
@@ -212,8 +252,9 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         buttonPrenota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String textDate = editTextDate.getText().toString();
-                String textTime = editTextTime.getText().toString();
+                textDate = editTextDate.getText().toString();
+                textTime = orario;
+                textCampo = editTextCampo.getText().toString();
 
                 if(TextUtils.isEmpty(textDate)){
                     Toast.makeText(PrenotaMatchActivity.this,"Inserisci la data della prenotazione" , Toast.LENGTH_SHORT).show();
@@ -221,20 +262,58 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                 } else if(TextUtils.isEmpty(textTime)){
                     Toast.makeText(PrenotaMatchActivity.this,"Inserisci l'orario della prenotazione" , Toast.LENGTH_SHORT).show();
                     editTextDate.setError("Necessario inserire l'orario");
+                }else if(textTime.equals("--Seleziona un orario--")){
+                    Toast.makeText(PrenotaMatchActivity.this,"Inserisci l'orario della prenotazione" , Toast.LENGTH_SHORT).show();
+                    editTextDate.setError("Necessario inserire l'orario");
+                }
+                else if(TextUtils.isEmpty(textCampo)) {
+                    Toast.makeText(PrenotaMatchActivity.this, "Inserisci il campo in cui giocare", Toast.LENGTH_SHORT).show();
+                    editTextDate.setError("Necessario inserire il campo");
                 }
                 else{
-                    confermaPrenotazione(firebaseUser, arrayListGiocatori, textDate, textTime);
-                }
+                    fullPlayers = arrayListGiocatori.size() >= 3;
+                    IdPrenotazione = textDate + textTime + textCampo + fullPlayers;
 
+
+                    confrontaPrenotazione(IdPrenotazione);
+                }
             }
         });
-
-
     }
 
-    private void confermaPrenotazione(FirebaseUser firebaseUser, ArrayList<String> arrayList , String textDate, String textTime){
-        num_prenotazione++;
+    private void confrontaPrenotazione(String idPrenotazione) {
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Prenotazioni");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(("Prenotazione " + idPrenotazione).equals(dataSnapshot.getKey())){
+                        flagConfronto = false;
+                        break;
+                    }
+                }
+                concretizzaPrenotazione(flagConfronto);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PrenotaMatchActivity.this, "Qualcosa è andato storto", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void concretizzaPrenotazione(boolean flagConfronto){
+        if (flagConfronto) {
+            confermaPrenotazione(firebaseUser, arrayListGiocatori, textDate, textTime, textCampo);
+        } else {
+            Toast.makeText(PrenotaMatchActivity.this, "Impossibile registrare prenotazione. Il campo potrebbe essere già prenotato", Toast.LENGTH_LONG).show();
+            startActivity(getIntent());
+            finish();
+        }
+    }
+
+    private void confermaPrenotazione(FirebaseUser firebaseUser, ArrayList<String> arrayList , String textDate, String textTime, String textCampo){
         String user = firebaseUser.getUid();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Utenti registrati");
@@ -244,7 +323,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                 ReadWriteUserDetails readNameSurnameLevel = snapshot.getValue(ReadWriteUserDetails.class);
                 if(readNameSurnameLevel != null){
                     player1 = readNameSurnameLevel.name + " " + readNameSurnameLevel.surname  + "\n(Livello abilità: " + readNameSurnameLevel.livello + ")";
-                    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione n:" + num_prenotazione).child("Giocatore 1");
+                    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 1");
                     databaseReference1.setValue(player1);
                 }
             }
@@ -256,34 +335,49 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         });
 
         player2 = arrayList.get(0);
-        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione n:" + num_prenotazione).child("Giocatore 2");
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 2");
         databaseReference2.setValue(player2);
 
 
         player3 = arrayList.get(1);
-        DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione n:" + num_prenotazione).child("Giocatore 3");
+        DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 3");
         databaseReference3.setValue(player3);
 
 
         player4 = arrayList.get(2);
-        DatabaseReference databaseReference4 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione n:" + num_prenotazione).child("Giocatore 4");
+        DatabaseReference databaseReference4 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 4");
         databaseReference4.setValue(player4);
 
 
-        DatabaseReference databaseReference6 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione n:" + num_prenotazione).child("Data");
+        DatabaseReference databaseReference6 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Data");
         databaseReference6.setValue(textDate);
 
-        DatabaseReference databaseReference7 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione n:" + num_prenotazione).child("Orario");
+        DatabaseReference databaseReference7 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Orario");
         databaseReference7.setValue(textTime);
+
+        DatabaseReference databaseReference8 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Campo");
+        databaseReference8.setValue(textCampo);
 
 
         Toast.makeText(PrenotaMatchActivity.this, "Prenotazione registrata con successo", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(PrenotaMatchActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
         startActivity(intent);
         finish();
 
     }
+
+    public String getColor(){
+        return color;
+    }
+    
+
+    private void openFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main, new CourtFragment(), "CourtFragmentTag")
+                .addToBackStack(null)
+                .commit();
+    }
+
 }
 

@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
                 getApplicationContext();
             }
             else if(item.getItemId() == R.id.play){
-                startActivity(new Intent(getApplicationContext(), PlayActivity.class));
+                startActivity(new Intent(getApplicationContext(), PrenotaMatchActivity.class));
                 finish();
                 overridePendingTransition(0,0);
             }

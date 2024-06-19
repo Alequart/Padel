@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext();
             }
             else if(item.getItemId() == R.id.play){
-                startActivity(new Intent(getApplicationContext(), PlayActivity.class));
+                startActivity(new Intent(getApplicationContext(), PrenotaMatchActivity.class));
                 finish();
                 overridePendingTransition(0,0);
             }
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playAct(View view){
-        startActivity(new Intent(MainActivity.this, PlayActivity.class));
+        startActivity(new Intent(MainActivity.this, PrenotaMatchActivity.class));
         overridePendingTransition(0,0);
     }
     public void trainingAct(View view){
