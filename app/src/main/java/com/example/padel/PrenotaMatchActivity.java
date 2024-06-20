@@ -46,6 +46,7 @@ import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PrenotaMatchActivity extends AppCompatActivity {
 
@@ -60,6 +61,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private EditText editTextDate;
     boolean flagConfronto = true;
+    boolean flagDouble = true;
     private Spinner spinnerTime;
     private String helperTime;
     protected EditText editTextCampo;
@@ -77,6 +79,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
     private final String slot8 = "22:00 - 23:30";
 
     private String player1, player2, player3, player4;
+    private ArrayList<String> concatConfronto;
 
     protected static String color;
 
@@ -183,8 +186,6 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                     arrayListGiocatori.remove(player);
                     Toast.makeText(PrenotaMatchActivity.this, player + " rimosso" , Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 
@@ -274,7 +275,6 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                     fullPlayers = arrayListGiocatori.size() >= 3;
                     IdPrenotazione = textDate + textTime + textCampo + fullPlayers;
 
-
                     confrontaPrenotazione(IdPrenotazione);
                 }
             }
@@ -313,6 +313,44 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         }
     }
 
+    private void completaPrenoatazione(boolean flagDouble){
+        System.out.println("completaPrenotazione: "+ flagDouble);
+        if(flagDouble){
+            DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 1");
+            databaseReference1.setValue(player1);
+
+            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 2");
+            databaseReference2.setValue(player2);
+
+            DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 3");
+            databaseReference3.setValue(player3);
+
+            DatabaseReference databaseReference4 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 4");
+            databaseReference4.setValue(player4);
+
+            DatabaseReference databaseReference6 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Data");
+            databaseReference6.setValue(textDate);
+
+            DatabaseReference databaseReference7 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Orario");
+            databaseReference7.setValue(textTime);
+
+            DatabaseReference databaseReference8 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Campo");
+            databaseReference8.setValue(textCampo);
+
+
+            Toast.makeText(PrenotaMatchActivity.this, "Prenotazione registrata con successo", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(PrenotaMatchActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
+        else{
+            Toast.makeText(PrenotaMatchActivity.this, "Impossibile registrare prenotazione. Giocatore già registrato in un'altra partita", Toast.LENGTH_LONG).show();
+            startActivity(getIntent());
+            finish();
+        }
+    }
+
     private void confermaPrenotazione(FirebaseUser firebaseUser, ArrayList<String> arrayList , String textDate, String textTime, String textCampo){
         String user = firebaseUser.getUid();
 
@@ -323,9 +361,67 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                 ReadWriteUserDetails readNameSurnameLevel = snapshot.getValue(ReadWriteUserDetails.class);
                 if(readNameSurnameLevel != null){
                     player1 = readNameSurnameLevel.name + " " + readNameSurnameLevel.surname  + "\n(Livello abilità: " + readNameSurnameLevel.livello + ")";
-                    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 1");
-                    databaseReference1.setValue(player1);
                 }
+                player2 = arrayList.get(0);
+                player3 = arrayList.get(1);
+                player4 = arrayList.get(2);
+
+                //checkGiocatori(player1, player2, player3, player4);
+
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Prenotazioni");
+
+                ArrayList<String> arrayGiocatori = new ArrayList<>();
+                concatConfronto = new ArrayList<>();
+                String concat1 = player1 + textDate + textTime;
+                arrayGiocatori.add(concat1);
+
+                String concat2 = player2 + textDate + textTime;
+                arrayGiocatori.add(concat2);
+
+                String concat3 = player3 + textDate + textTime;
+                arrayGiocatori.add(concat3);
+
+                String concat4 = player4 + textDate + textTime;
+                arrayGiocatori.add(concat4);
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            concatConfronto.add(dataSnapshot.child("Giocatore 1").getValue(String.class)
+                                    + dataSnapshot.child("Data").getValue(String.class)
+                                    + dataSnapshot.child("Orario").getValue(String.class));
+                            concatConfronto.add(dataSnapshot.child("Giocatore 2").getValue(String.class)
+                                    +dataSnapshot.child("Data").getValue(String.class)
+                                    + dataSnapshot.child("Orario").getValue(String.class));
+                            concatConfronto.add(dataSnapshot.child("Giocatore 3").getValue(String.class)
+                                    + dataSnapshot.child("Data").getValue(String.class)
+                                    + dataSnapshot.child("Orario").getValue(String.class));
+                            concatConfronto.add(dataSnapshot.child("Giocatore 4").getValue(String.class)
+                                    + dataSnapshot.child("Data").getValue(String.class)
+                                    + dataSnapshot.child("Orario").getValue(String.class));
+                        }
+
+                        for(String s : arrayGiocatori){
+                            for (String p : concatConfronto){
+                                System.out.println(s + " STACCO\n" + p);
+                                if(Objects.equals(s, p)){
+                                    flagDouble = false;
+                                    System.out.println("flagDouble: "+ flagDouble);
+                                }
+                            }
+                        }
+                        completaPrenoatazione(flagDouble);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
             }
 
             @Override
@@ -334,37 +430,12 @@ public class PrenotaMatchActivity extends AppCompatActivity {
             }
         });
 
-        player2 = arrayList.get(0);
-        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 2");
-        databaseReference2.setValue(player2);
-
-
-        player3 = arrayList.get(1);
-        DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 3");
-        databaseReference3.setValue(player3);
-
-
-        player4 = arrayList.get(2);
-        DatabaseReference databaseReference4 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 4");
-        databaseReference4.setValue(player4);
-
-
-        DatabaseReference databaseReference6 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Data");
-        databaseReference6.setValue(textDate);
-
-        DatabaseReference databaseReference7 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Orario");
-        databaseReference7.setValue(textTime);
-
-        DatabaseReference databaseReference8 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Campo");
-        databaseReference8.setValue(textCampo);
-
-
-        Toast.makeText(PrenotaMatchActivity.this, "Prenotazione registrata con successo", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(PrenotaMatchActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-
     }
+
+
+//    private void checkGiocatori(String giocatore1, String giocatore2, String giocatore3, String giocatore4){
+//
+//    }
 
     public String getColor(){
         return color;
