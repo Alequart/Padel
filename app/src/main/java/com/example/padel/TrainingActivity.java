@@ -243,19 +243,8 @@ public class TrainingActivity extends AppCompatActivity {
                     editTextDate.setError("Necessario inserire il campo");
                 }
                 else{
-//                    builder = new AlertDialog.Builder(TrainingActivity.this);
-//                    builder.setTitle("Attenzione!")
-//                            .setMessage("La prenotazione dell'allenamento può essere annullata in caso di prenotazione di una partita")
-//                            .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.cancel();
-//                                }
-//                            }).show();
-
                     IdPrenotazione = textDate + textTime + textCampo;
                     confrontaPrenotazionePartita(IdPrenotazione);
-
                 }
             }
         });
@@ -432,9 +421,7 @@ public class TrainingActivity extends AppCompatActivity {
 
 
             Toast.makeText(TrainingActivity.this, "Prenotazione registrata con successo", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(TrainingActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            callAlert();
         }
         else{
             Toast.makeText(TrainingActivity.this, "Impossibile registrare prenotazione. Giocatore/i e/o allenatore non disponibili", Toast.LENGTH_LONG).show();
@@ -452,5 +439,20 @@ public class TrainingActivity extends AppCompatActivity {
     }
 
     public String getColor(){return color;}
+
+    private void callAlert(){
+        builder = new AlertDialog.Builder(TrainingActivity.this);
+        builder.setTitle("Attenzione!")
+        .setMessage("La prenotazione dell'allenamento può essere annullata in caso di prenotazione di una partita")
+        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                Intent intent = new Intent(TrainingActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).show();
+    }
 
 }
