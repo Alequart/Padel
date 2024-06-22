@@ -24,53 +24,53 @@ public class ReadWriteUserDetails {
         this.dateOfBirth = textDateOfBirth;
         this.livello = textLivello;
     }
-
-    public String getNameFromFather() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Utenti registrati").child(userID);
-
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
-                if (readUserDetails != null) {
-                    name = readUserDetails.name;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-        return name;
-    }
-
-    public String getSurnameFromFather() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-
-        String userID = firebaseUser.getUid();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Utenti registrati").child(userID);
-
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
-                if (readUserDetails != null) {
-                    surname = readUserDetails.surname;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-        return surname;
-    }
-
+//
+//    public String getNameFromFather() {
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseUser = firebaseAuth.getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Utenti registrati").child(userID);
+//
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
+//                if (readUserDetails != null) {
+//                    name = readUserDetails.name;
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
+//        return name;
+//    }
+//
+//    public String getSurnameFromFather() {
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseUser = firebaseAuth.getCurrentUser();
+//
+//        String userID = firebaseUser.getUid();
+//
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Utenti registrati").child(userID);
+//
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
+//                if (readUserDetails != null) {
+//                    surname = readUserDetails.surname;
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
+//        return surname;
+//    }
+//
 }

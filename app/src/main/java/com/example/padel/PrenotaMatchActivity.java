@@ -63,7 +63,6 @@ public class PrenotaMatchActivity extends AppCompatActivity {
     boolean flagConfronto = true;
     boolean flagDouble = true;
     private Spinner spinnerTime;
-    private String helperTime;
     protected EditText editTextCampo;
 
     private FirebaseAuth firebaseAuth;
@@ -86,11 +85,11 @@ public class PrenotaMatchActivity extends AppCompatActivity {
     boolean fullPlayers;
     private String IdPrenotazione;
 
-    FirebaseUser firebaseUser;
+    private FirebaseUser firebaseUser;
 
-    String textDate;
-    String textTime;
-    String textCampo;
+    private String textDate;
+    private String textTime;
+    private String textCampo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,16 +289,16 @@ public class PrenotaMatchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if(("Prenotazione " + idPrenotazione).equals(dataSnapshot.getKey())){
-                        System.out.println("PRENOTAZIONE UGUALE\n" + fullPlayers);
+                        //System.out.println("PRENOTAZIONE UGUALE\n" + fullPlayers);
                         flagConfronto = false;
-                        System.out.println(dataSnapshot.child("Giocatore 4").getValue());
+                        //System.out.println(dataSnapshot.child("Giocatore 4").getValue());
                         if(fullPlayers && dataSnapshot.child("Giocatore 4").getValue() == null){
                             flagConfronto = true;
                         }
                         break;
                     }
                 }
-                System.out.println("CONFRONTO");
+                //System.out.println("CONFRONTO");
                 concretizzaPrenotazione(flagConfronto);
             }
             @Override
@@ -311,8 +310,8 @@ public class PrenotaMatchActivity extends AppCompatActivity {
 
     private void concretizzaPrenotazione(boolean flagConfronto){
         if (flagConfronto) {
-            System.out.println("CONCRETIZZA");
-            confermaPrenotazione(firebaseUser, arrayListGiocatori, textDate, textTime, textCampo);
+            //System.out.println("CONCRETIZZA");
+            confermaPrenotazione(firebaseUser, arrayListGiocatori, textDate, textTime);
         } else {
             Toast.makeText(PrenotaMatchActivity.this, "Impossibile registrare prenotazione. Il campo potrebbe essere già prenotato", Toast.LENGTH_LONG).show();
             startActivity(getIntent());
@@ -321,7 +320,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
     }
 
     private void completaPrenoatazione(boolean flagDouble){
-        System.out.println("COMPLETA: "+ flagDouble);
+        //System.out.println("COMPLETA: "+ flagDouble);
         if(flagDouble){
             DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Prenotazioni").child("Prenotazione " + IdPrenotazione).child("Giocatore 1");
             databaseReference1.setValue(player1);
@@ -365,9 +364,9 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         }
     }
 
-    private void confermaPrenotazione(FirebaseUser firebaseUser, ArrayList<String> arrayList , String textDate, String textTime, String textCampo){
+    private void confermaPrenotazione(FirebaseUser firebaseUser, ArrayList<String> arrayList , String textDate, String textTime){
         String user = firebaseUser.getUid();
-        System.out.println("CONFERMA");
+        //System.out.println("CONFERMA");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Utenti registrati");
         databaseReference.child(user).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -400,9 +399,6 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                         player2 = arrayList.get(0);
                     }
                 }
-
-
-                //checkGiocatori(player1, player2, player3, player4);
 
 
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Prenotazioni");
@@ -447,6 +443,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                             for (String p : concatConfronto){
                                 if(Objects.equals(s, p)){
                                     flagDouble = false;
+                                    break;
                                 }
                             }
                         }
@@ -467,10 +464,6 @@ public class PrenotaMatchActivity extends AppCompatActivity {
 
     }
 
-
-//    private void checkGiocatori(String giocatore1, String giocatore2, String giocatore3, String giocatore4){
-//
-//    }
 
     public String getColor(){
         return color;
