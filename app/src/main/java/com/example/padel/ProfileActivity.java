@@ -67,6 +67,11 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
                 overridePendingTransition(0,0);
             }
+            else if(item.getItemId() == R.id.notification) {
+                startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
+            }
             return true;
         });
 

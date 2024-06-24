@@ -118,6 +118,10 @@ public class TrainingActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 finish();
                 overridePendingTransition(0,0);
+            } else if(item.getItemId() == R.id.notification) {
+                startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
             }
             return true;
         });
@@ -322,7 +326,7 @@ public class TrainingActivity extends AppCompatActivity {
                 ReadWriteUserDetails readNameSurnameLevel = snapshot.getValue(ReadWriteUserDetails.class);
 
                 if(readNameSurnameLevel != null){
-                    player = readNameSurnameLevel.name + " " + readNameSurnameLevel.surname  + "\n(Livello abilità: " + readNameSurnameLevel.livello + ")";
+                    player = readNameSurnameLevel.name + " " + readNameSurnameLevel.surname  + " (Livello abilità: " + readNameSurnameLevel.livello + ")";
                 }
 
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Prenotazioni");

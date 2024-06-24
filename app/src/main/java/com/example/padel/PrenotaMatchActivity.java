@@ -116,6 +116,10 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 finish();
                 overridePendingTransition(0, 0);
+            } else if(item.getItemId() == R.id.notification){
+                startActivity(new Intent(getApplicationContext(), NotificationActivity.class));
+                finish();
+                overridePendingTransition(0, 0);
             }
             return true;
         });
@@ -144,7 +148,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                     cognome = dataSnapshot.child("surname").getValue(String.class);
                     livello = dataSnapshot.child("livello").getValue(String.class);
                     if (nome != null && cognome != null && !dataSnapshot.getKey().equals(currentUserId)) {
-                        arrayList.add(nome + " " + cognome + "\n(Livello abilità: " + livello + ")");
+                        arrayList.add(nome + " " + cognome + " (Livello abilità: " + livello + ")");
                     }
                 }
                 progressBar.setVisibility(View.GONE);
@@ -373,7 +377,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ReadWriteUserDetails readNameSurnameLevel = snapshot.getValue(ReadWriteUserDetails.class);
                 if(readNameSurnameLevel != null){
-                    player1 = readNameSurnameLevel.name + " " + readNameSurnameLevel.surname  + "\n(Livello abilità: " + readNameSurnameLevel.livello + ")";
+                    player1 = readNameSurnameLevel.name + " " + readNameSurnameLevel.surname  + " (Livello abilità: " + readNameSurnameLevel.livello + ")";
                 }
                 if(arrayList.size() >= 3){
                     if(arrayList.get(0) != null){
