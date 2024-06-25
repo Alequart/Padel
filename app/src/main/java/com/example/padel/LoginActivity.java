@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextLoginEmail, editTextLoginPassword;
     private FirebaseAuth authProfile;
 
+    private ProgressBar progressBar;
+
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -38,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         editTextLoginEmail = findViewById(R.id.login_email);
         editTextLoginPassword = findViewById(R.id.login_password);
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
         authProfile = FirebaseAuth.getInstance();
 
         Button buttonLogin = findViewById(R.id.btn_login);
@@ -46,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String textEmail = editTextLoginEmail.getText().toString();
                 String textPassword = editTextLoginPassword.getText().toString();
+                progressBar.setVisibility(View.VISIBLE);
 
                 if(TextUtils.isEmpty(textEmail)){
                     Toast.makeText(LoginActivity.this, "Inserisci l'email", Toast.LENGTH_LONG).show();
@@ -68,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "Accesso eseguito con successo", Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -77,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
+                    progressBar.setVisibility(View.GONE);
                     try{
                         throw task.getException();
                     } catch (FirebaseAuthInvalidUserException e){

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CircoloActivity"
+    android:background="@color/blue_aqua">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:id="@+id/titleHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Padel DMI"
+                android:textColor="@color/orange"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imagePadel"
+                android:layout_width="match_parent"
+                android:layout_height="268dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/mobile_court" />
+
+            <TextView
+                android:id="@+id/descriptionHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:text="Chi siamo"
+                android:textColor="@color/green"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:text="Il Padel DMI, situato nelle vicinanze della Cittadella universitaria a Catania, è un ottimo connubio tra l’attività sportiva e i momenti di relax da trascorrere in compagnia.
+Aria pura, panorama eccellente, campi efficienti e sempre curati: tutte queste peculiarità rendono il Magister Sport Barasso il luogo ideale per fare sport, divertirsi con gli amici e godere nel frattempo della bellezza del luogo."
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/greenCourt"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/green_court" />
+
+            <ImageView
+                android:id="@+id/blueCourt"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/blue_court"/>
+
+            <ImageView
+                android:id="@+id/orangeCourt"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/orange_court"/>
+
+            <ImageView
+                android:id="@+id/redCourt"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/red_court"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:layout_margin="15dp">
+
+                <ImageView
+                    android:id="@+id/appendino"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/appendino" />
+
+                <TextView
+                    android:id="@+id/spogliatoi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/appendino"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="SPOGLIATOI"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/spogliatoiDescrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/spogliatoi"
+                    android:layout_toEndOf="@id/appendino"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="DOTATI DI DOCCE E COMFORT VARI"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:layout_margin="15dp">
+
+                <ImageView
+                    android:id="@+id/drink"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/drink" />
+
+                <TextView
+                    android:id="@+id/bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/drink"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="BAR"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/barDescrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/bar"
+                    android:layout_toEndOf="@id/drink"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="PIATTI FREDDI, PANINI, ECC."/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:layout_margin="15dp">
+
+                <ImageView
+                    android:id="@+id/carSpot"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/parking" />
+
+                <TextView
+                    android:id="@+id/parcheggio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/carSpot"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="AMPIO PARCHEGGIO"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/parcheggioDescrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/parcheggio"
+                    android:layout_toEndOf="@id/carSpot"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="INTERNO AL CENTRO SPORTIVO"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:layout_margin="15dp">
+
+                <ImageView
+                    android:id="@+id/racchetta"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/tennis_racket" />
+
+                <TextView
+                    android:id="@+id/noleggio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/racchetta"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="NOLEGGIO ATTREZZATURA"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/noleggioDescrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/noleggio"
+                    android:layout_toEndOf="@id/racchetta"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="NOLEGGIO RACCHETTE E PALLINE DIRETTAMENTE AL CAMPO"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:layout_margin="15dp">
+
+                <ImageView
+                    android:id="@+id/calendar"
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/booking" />
+
+                <TextView
+                    android:id="@+id/prenotazione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/calendar"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="PRENOTAZIONE IN APP"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/prenotazioneDescrizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/prenotazione"
+                    android:layout_toEndOf="@id/calendar"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="PRENOTA TRAMITE APP"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/padelInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Che cos'è il Padel"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/green"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descriptionPadel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:text="Il padel è uno sport di palla che si pratica a coppie, di derivazione tennistica. Nel caso del padel il campo è chiuso ai 4 lati a eccezione di due porte laterali. Il gioco si pratica con una racchetta denominata pala e delle palline.
+Il Padel è un gioco divertente che può essere praticato da persone di diversa età, sesso, condizioni tecniche e fisiche."
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/invito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="VIENI A TROVARCI!"
+                android:textColor="@color/orange"
+                android:textSize="50sp"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/_0240505_173945" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/nav_bar"
+        app:itemIconSize="35dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

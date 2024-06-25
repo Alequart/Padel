@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -40,6 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private RadioGroup radioGroupLivello;
     private RadioButton radioButtonSelected;
+
+    private ProgressBar progressBar;
+
     private static final String TAG = "RegisterActivity";
     private DatePickerDialog picker;
 
@@ -57,6 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         radioGroupLivello = findViewById(R.id.radioGroup);
         radioGroupLivello.clearCheck();
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         editTextRegisterDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else{
                     textLivello = radioButtonSelected.getText().toString();
+                    progressBar.setVisibility(View.VISIBLE);
                     registerUser(textName, textSurname, textDateOfBirth, textLivello, textEmail, textPassword, textConfirmPassword);
                 }
             }
@@ -173,13 +181,14 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
 
                             if(task.isSuccessful()){
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(RegisterActivity.this, "Utente registrato con successo", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
                                 startActivity(intent);
                                 finish();
                             } else{
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(RegisterActivity.this, "Errore. Utente non registrato", Toast.LENGTH_LONG).show();
                             }
                         }

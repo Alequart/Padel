@@ -168,7 +168,7 @@
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="54dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:backgroundTint="@color/green"
         android:text="Register" />
 
@@ -184,5 +184,14 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
 
 </LinearLayout>

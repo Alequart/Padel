@@ -139,7 +139,9 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(0,0);
         } else if(id == R.id.menu_club){
-            Toast.makeText(ProfileActivity.this, "DA AGGIUNGERE", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProfileActivity.this, CircoloActivity.class);
+            startActivity(intent);
+            finish();
         } else if(id == R.id.menu_logOut){
             authProfile.signOut();
             Toast.makeText(ProfileActivity.this, "Effettuo logout", Toast.LENGTH_SHORT).show();
