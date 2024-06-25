@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeleteAccountActivity"
+    android:background="@color/blue_aqua">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:layout_margin="15dp">
+
+            <TextView
+                android:id="@+id/textDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Per eliminare il tuo account devi reinserire la password"
+                android:textSize="30sp"
+                android:textAlignment="center"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textDelete"
+                android:text="Password"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:padding="6dp"
+                android:textColor="#555555"/>
+
+            <EditText
+                android:id="@+id/editDeletePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textPassword"
+                android:hint="Inserisci la password"
+                android:inputType="textPassword"
+                android:padding="15dp"/>
+
+            <Button
+                android:id="@+id/checkPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editDeletePassword"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:text="Conferma password"
+                android:backgroundTint="@color/orange"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_margin="15dp"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textViewAutenticato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Inserisci prima la password"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColor="#555555"/>
+
+            <Button
+                android:id="@+id/deleteProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewAutenticato"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginLeft="70dp"
+                android:backgroundTint="#555555"
+                android:text="Elimina utente"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

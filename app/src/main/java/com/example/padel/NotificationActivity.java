@@ -1,16 +1,20 @@
 package com.example.padel;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,6 +22,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +49,8 @@ public class NotificationActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String concatGiocatore;
+
+    private static final String TAG = "DeleteAccountActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,9 +265,7 @@ public class NotificationActivity extends AppCompatActivity {
                                         dataSnapshot.child("Campo").getValue(String.class)));
                             }
                         }
-                        listPrenotazioni.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
-                        listPrenotazioni.setAdapter(new MyAdapter(getApplicationContext(), items));
-                        progressBar.setVisibility(View.GONE);
+                        selezionaElementi(items);
                     }
 
                     @Override
@@ -276,33 +282,79 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
     }
-//    public void prenotazioniAllenamenti(){
-//        List<Item> items = new ArrayList<>();
-//        reference = FirebaseDatabase.getInstance().getReference("Allenamenti");
-//
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    if(dataSnapshot.child("Giocatore").getValue(String.class).equals(concatGiocatore)){
-//                        items.add(new Item(
-//                                dataSnapshot.getKey(),
-//                                concatGiocatore,
-//                                dataSnapshot.child("Allenatore").getValue(String.class),
-//                                dataSnapshot.child("Data").getValue(String.class),
-//                                dataSnapshot.child("Orario").getValue(String.class),
-//                                dataSnapshot.child("Campo").getValue(String.class)));
-//                    }
-//                }
-//                listPrenotazioni.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
-//                listPrenotazioni.setAdapter(new MyAdapter(getApplicationContext(), items));
-//                progressBar.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
+
+    private void selezionaElementi(List<Item> items){
+        listPrenotazioni.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
+        listPrenotazioni.setAdapter(new MyAdapter(getApplicationContext(), items, new MyAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(Item item) {
+                if(item.getGiocatore1().equals(concatGiocatore)){
+                    showAlertDialog(item);
+                }
+            }
+        }));
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    private void showAlertDialog(Item item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(NotificationActivity.this);
+        builder.setTitle("Elimina prenotazione");
+        builder.setMessage("Vuoi eliminare la prenotazione? Se sei sicuro, clicca Conferma");
+
+        builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteUserdata(item);
+                Toast.makeText(NotificationActivity.this, "Prenotazione eliminata", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NotificationActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(getIntent());
+                finish();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red));
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void deleteUserdata(Item item){
+        database.child(item.getPrenotazione()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "OnSucccess: Dati utente eliminati");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, e.getMessage());
+                Toast.makeText(NotificationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        reference.child(item.getPrenotazione()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "OnSucccess: Dati utente eliminati");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, e.getMessage());
+                Toast.makeText(NotificationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

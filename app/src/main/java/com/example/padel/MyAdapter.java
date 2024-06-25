@@ -11,8 +11,16 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-    Context context;
-    List<Item> items;
+    private Context context;
+    private List<Item> items;
+
+    private ItemClickListener mItemListener;
+
+    public MyAdapter(Context context, List<Item> items, ItemClickListener mItemListener){
+        this.context = context;
+        this.items = items;
+        this.mItemListener = mItemListener;
+    }
 
     public MyAdapter(Context context, List<Item> items) {
         this.context = context;
@@ -35,10 +43,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.dataView.setText(items.get(position).getData());
         holder.orarioView.setText(items.get(position).getOrario());
         holder.campoView.setText(items.get(position).getCampo());
+
+        holder.itemView.setOnClickListener(view -> {
+            mItemListener.onItemClick(items.get(position));
+        });
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public interface ItemClickListener{
+        void onItemClick(Item item);
     }
 }
