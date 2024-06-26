@@ -63,7 +63,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
                 android:text="Il Padel DMI, situato nelle vicinanze della Cittadella universitaria a Catania, è un ottimo connubio tra l’attività sportiva e i momenti di relax da trascorrere in compagnia.
-Aria pura, panorama eccellente, campi efficienti e sempre curati: tutte queste peculiarità rendono il Magister Sport Barasso il luogo ideale per fare sport, divertirsi con gli amici e godere nel frattempo della bellezza del luogo."
+Aria pura, panorama eccellente, campi efficienti e sempre curati: tutte queste peculiarità rendono il Padel DMI il luogo ideale per fare sport, divertirsi con gli amici e godere nel frattempo della bellezza del luogo."
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
