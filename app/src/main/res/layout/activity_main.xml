@@ -34,11 +34,10 @@
         android:background="@drawable/nav_bar"
         app:itemIconSize="35dp"
         app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/frameLayout"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
     <TextView
@@ -48,44 +47,47 @@
         android:layout_marginStart="28dp"
         android:layout_marginEnd="29dp"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Scegli un'attività"
         android:textColor="@color/orange"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/imageView"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <GridLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="409dp"
+        android:id="@+id/gridLayout"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
         android:columnCount="2"
         android:rowCount="1"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textView">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintBottom_toTopOf="@id/secondoGridLayout">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="194dp"
-            android:layout_height="220dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="5dp"
             android:backgroundTint="@color/cardview_shadow_start_color"
             app:cardCornerRadius="10dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
+            app:cardElevation="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/play"
+                    android:id="@+id/campo_verde"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -99,26 +101,26 @@
                     android:onClick="playAct"
                     android:padding="5dp"
                     android:src="@drawable/play" />
-
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="194dp"
-            android:layout_height="220dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="5dp"
             android:backgroundTint="@color/cardview_shadow_start_color"
             app:cardCornerRadius="10dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
+            app:cardElevation="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/training"
+                    android:id="@+id/campo_blu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -132,35 +134,44 @@
                     android:onClick="trainingAct"
                     android:padding="5dp"
                     android:src="@drawable/mr_coach" />
-
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/secondoGridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="1"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gridLayout"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
+
         <TextView
-            android:id="@+id/textPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_columnWeight="0.4"
             android:gravity="center"
-            android:text="Prenota partita"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:text="Prenota\npartita"
             android:textColor="@color/orange"
-            android:layout_gravity="center_horizontal"/>
-
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textTraining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_columnWeight="0.6"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:text="Prenota allenamento"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:text="Prenota\nallenamento"
             android:textColor="@color/orange"
-            android:layout_gravity="center_horizontal"
-            />
-
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </GridLayout>
 

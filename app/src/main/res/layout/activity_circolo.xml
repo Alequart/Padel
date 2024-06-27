@@ -369,7 +369,6 @@ Il Padel è un gioco divertente che può essere praticato da persone di diversa 
         android:background="@drawable/nav_bar"
         app:itemIconSize="35dp"
         app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

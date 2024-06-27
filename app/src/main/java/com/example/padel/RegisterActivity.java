@@ -111,7 +111,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Inserisci la data di nascita", Toast.LENGTH_LONG).show();
                     editTextRegisterDateOfBirth.setError("Necessario inserire la data di nascita");
                     editTextRegisterDateOfBirth.requestFocus();
-                } else if(radioGroupLivello.getCheckedRadioButtonId() == -1){
+                }
+                else if(radioGroupLivello.getCheckedRadioButtonId() == -1){
                     Toast.makeText(RegisterActivity.this, "Seleziona il livello di abilità", Toast.LENGTH_LONG).show();
                     radioButtonSelected.setError("Necessario selezionare un livello di abilità");
                     radioButtonSelected.requestFocus();

@@ -64,6 +64,13 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(DeleteAccountActivity.this, ProfileActivity.class));
+        finish();
+    }
+
     public void authenticateUser(FirebaseUser firebaseUser){
         buttonAuthUser.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -87,4 +87,11 @@ public class CircoloActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo);
 
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(CircoloActivity.this, ProfileActivity.class));
+        finish();
+    }
 }

@@ -51,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finishAffinity();
+        finish();
+    }
+
     public void playAct(View view){
         startActivity(new Intent(MainActivity.this, PrenotaMatchActivity.class));
         overridePendingTransition(0,0);

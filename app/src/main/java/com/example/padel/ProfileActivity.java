@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -155,8 +158,44 @@ public class ProfileActivity extends AppCompatActivity {
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null){
             imageUri = data.getData();
             profilePic.setImageURI(imageUri);
+            handleImage(imageUri);
             uploadPicture();
         }
+    }
+
+    private Bitmap cropImage(Bitmap originalBitmap, int left, int top, int right, int bottom) {
+        int croppedWidth = right - left;
+        int croppedHeight = bottom - top;
+
+        Bitmap croppedBitmap = Bitmap.createBitmap(croppedWidth, croppedHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(croppedBitmap);
+        canvas.drawBitmap(originalBitmap, new Rect(left, top, right, bottom), new Rect(0, 0, croppedWidth, croppedHeight), null);
+
+        return croppedBitmap;
+    }
+
+    private void handleImage(Uri imageUri) {
+        // Carica l'immagine originale come Bitmap
+        try{
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            Bitmap originalBitmap = BitmapFactory.decodeStream(inputStream);
+
+            // Coordinate di ritaglio (esempio: selezione dell'utente)
+            int left = 0; // Coordinata X in alto a sinistra
+            int top = 0; // Coordinata Y in alto a sinistra
+            int right = 600; // Coordinata X in basso a destra
+            int bottom = 600; // Coordinata Y in basso a destra
+
+            // Chiama la funzione di ritaglio
+            Bitmap croppedBitmap = cropImage(originalBitmap, left, top, right, bottom);
+
+            // Mostra l'immagine ritagliata nell'ImageView
+            profilePic.setImageBitmap(croppedBitmap);
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+            // Gestisci l'errore se l'immagine non può essere trovata
+        }
+
     }
 
     private void uploadPicture(){
@@ -187,8 +226,13 @@ public class ProfileActivity extends AppCompatActivity {
                 progressDialog.setMessage("Percentuale caricamento: " + (int) progressPercent + "%");
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+        finish();
     }
 
     private void showUserProfile(FirebaseUser firebaseUser){
@@ -277,7 +321,14 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap result) {
             if (result != null) {
-                profilePic.setImageBitmap(result);
+                int left = 0; // Coordinata X in alto a sinistra
+                int top = 0; // Coordinata Y in alto a sinistra
+                int right = 600; // Coordinata X in basso a destra
+                int bottom = 600; // Coordinata Y in basso a destra
+
+                // Chiama la funzione di ritaglio
+                Bitmap croppedBitmap = cropImage(result, left, top, right, bottom);
+                profilePic.setImageBitmap(croppedBitmap);
             } else {
                 Toast.makeText(ProfileActivity.this, "Errore. Impossibile caricare immagine", Toast.LENGTH_SHORT).show();
             }

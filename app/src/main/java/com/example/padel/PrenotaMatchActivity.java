@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -282,6 +283,15 @@ public class PrenotaMatchActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent keyevent){
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            startActivity(new Intent(PrenotaMatchActivity.this, MainActivity.class));
+            finish();
+            return true;
+        }
+        return false;
     }
 
     private void confrontaPrenotazione(String idPrenotazione) {

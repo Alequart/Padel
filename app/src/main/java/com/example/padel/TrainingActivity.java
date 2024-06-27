@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -252,6 +253,15 @@ public class TrainingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent keyevent){
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            startActivity(new Intent(TrainingActivity.this, MainActivity.class));
+            finish();
+            return true;
+        }
+        return false;
     }
 
     //CONTROLLO SE QUEL GIORNO E PER QUELL'ORA IL CAMPO È GIÁ PRENOTATO PER UNA PARTITA

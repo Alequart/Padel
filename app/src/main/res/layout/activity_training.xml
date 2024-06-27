@@ -101,7 +101,7 @@
                         android:layout_marginEnd="0dp"
                         android:layout_marginBottom="0dp"
                         android:padding="5dp"
-                        android:scaleX="1.4"
+                        android:scaleX="1.5"
                         android:scaleY="1.4"
                         android:src="@drawable/padel_instructor2" />
 
@@ -111,41 +111,43 @@
 
         </GridLayout>
 
-        <LinearLayout
+        <GridLayout
+            android:id="@+id/gridLayoutDue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:columnCount="2"
+            android:rowCount="1">
 
             <EditText
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_gravity="left"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Filippo"
+                android:focusable="false"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="3dp"
+                android:layout_marginStart="60dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Roberto"
+                android:focusable="false"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
-        </LinearLayout>
+        </GridLayout>
 
     </LinearLayout>
 
@@ -227,7 +229,6 @@
         android:background="@drawable/nav_bar"
         app:itemIconSize="35dp"
         app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

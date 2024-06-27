@@ -95,6 +95,13 @@ public class NotificationActivity extends AppCompatActivity {
         getNomeCognomeLivelloUser();
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(NotificationActivity.this, MainActivity.class));
+        finish();
+    }
+
     public void getNomeCognomeLivelloUser(){
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Utenti registrati");
@@ -315,8 +322,7 @@ public class NotificationActivity extends AppCompatActivity {
         builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(getIntent());
-                finish();
+                dialog.cancel();
             }
         });
         AlertDialog alertDialog = builder.create();
