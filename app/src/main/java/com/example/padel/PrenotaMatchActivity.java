@@ -285,6 +285,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         });
     }
 
+    //TORNARE ALLA MAIN ACTIVITY
     public boolean onKeyDown(int keyCode, KeyEvent keyevent){
         if(keyCode == KeyEvent.KEYCODE_BACK){
             startActivity(new Intent(PrenotaMatchActivity.this, MainActivity.class));
@@ -294,6 +295,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         return false;
     }
 
+    //VERIFICA SE ESISTE GIÁ UNA PRENOTAZIONE STESSO GIORNO, STESSA ORA, STESSO CAMPO
     private void confrontaPrenotazione(String idPrenotazione) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Prenotazioni");
@@ -322,6 +324,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         });
     }
 
+    //RICHIAMA ULTERIORE CONTROLLO DOPO AVER RICEVUTO IL DATO flagConfronto
     private void concretizzaPrenotazione(boolean flagConfronto){
         if (flagConfronto) {
             //System.out.println("CONCRETIZZA");
@@ -333,6 +336,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         }
     }
 
+    //REGISTRA PREENOTAZIONE
     private void completaPrenoatazione(boolean flagDouble){
         //System.out.println("COMPLETA: "+ flagDouble);
         if(flagDouble){
@@ -378,6 +382,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         }
     }
 
+    //VERIFICA CHE I GIOCATORI NON SIANO GIÁ IMPEGNATI IN ALTRE PARTITE LO STESSO GIORNO ALLA STESSA ORA IN ALTRI CAMPI
     private void confermaPrenotazione(FirebaseUser firebaseUser, ArrayList<String> arrayList , String textDate, String textTime){
         String user = firebaseUser.getUid();
         //System.out.println("CONFERMA");
@@ -483,7 +488,7 @@ public class PrenotaMatchActivity extends AppCompatActivity {
         return color;
     }
     
-
+    //APRI FRAGMENT PER SCEGLIERE IL CAMPO
     private void openFragment(){
         getSupportFragmentManager()
                 .beginTransaction()

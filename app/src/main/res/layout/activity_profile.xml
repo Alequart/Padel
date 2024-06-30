@@ -131,7 +131,7 @@
                     android:layout_height="25dp"
                     android:layout_below="@id/divider_surname"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/ic_birthday" />
+                    android:src="@drawable/birthday_calendar" />
 
                 <TextView
                     android:id="@+id/profile_birthday"

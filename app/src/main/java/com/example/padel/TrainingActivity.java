@@ -255,6 +255,7 @@ public class TrainingActivity extends AppCompatActivity {
         });
     }
 
+    //TORNA INDIETRO ALLA MAIN ACTIVITY
     public boolean onKeyDown(int keyCode, KeyEvent keyevent){
         if(keyCode == KeyEvent.KEYCODE_BACK){
             startActivity(new Intent(TrainingActivity.this, MainActivity.class));
@@ -416,6 +417,7 @@ public class TrainingActivity extends AppCompatActivity {
         });
     }
 
+    //REGISTRA PRENOTAZIONE
     private void completaPrenotazione(boolean flagDoublePartite, boolean flagDoubleAllenamenti){
         if(flagDoublePartite && flagDoubleAllenamenti){
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Allenamenti").child("Prenotazione " + IdPrenotazione).child("Giocatore");
@@ -444,6 +446,7 @@ public class TrainingActivity extends AppCompatActivity {
         }
     }
 
+    //APRI FRAGMENT PER SCELTA CAMPO
     private void openFragment(){
         getSupportFragmentManager()
                 .beginTransaction()
