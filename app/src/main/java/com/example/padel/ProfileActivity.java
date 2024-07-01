@@ -205,9 +205,9 @@ public class ProfileActivity extends AppCompatActivity {
         progressDialog.setTitle("Caricamento immagine...");
         progressDialog.show();
 
-        StorageReference riverRef = storageReference.child("images/" + firebaseUser.getUid());
+        StorageReference ref = storageReference.child("images/" + firebaseUser.getUid());
 
-        riverRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        ref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
